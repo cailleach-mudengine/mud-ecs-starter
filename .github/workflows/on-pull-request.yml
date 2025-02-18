@@ -1,0 +1,20 @@
+name: 'OnPullRequest'
+
+on:  
+  pull_request:
+    types: [opened, reopened]
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
+
+jobs:
+  starter-ecs-pull-request:
+    uses: cailleach-devops/tfc-shared-actions/.github/workflows/aws-starter-ecs-pull-request.yml@main
+    with:
+      tfc-organization: ${{ vars.TFC_ORGANIZATION }}
+    secrets:
+      tfc-token: ${{ secrets.TFC_TOKEN }}

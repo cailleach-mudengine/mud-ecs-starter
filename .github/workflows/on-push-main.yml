@@ -1,0 +1,20 @@
+name: 'OnPushMain'
+
+on:  
+  push:
+    branches:
+      - 'main'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  starter-ecs-dev-publish:
+    uses: cailleach-devops/tfc-shared-actions/.github/workflows/aws-starter-ecs-publish.yml@main
+    with:
+      tfc-organization: "${{ vars.TFC_ORGANIZATION }}"
+      git-organization: ${{ github.repository_owner }}
+      environment: "dev"
+    secrets:
+      tfc-token: ${{ secrets.TFC_TOKEN }}

@@ -1,0 +1,44 @@
+name: 'On Create Repository'
+
+on:
+  create:
+    branches:
+      - 'main'
+      
+permissions:
+  contents: read
+  id-token: write
+    
+jobs:
+  createWorkspace:
+    runs-on: ubuntu-20.04    
+    if: github.ref_name == 'main'
+    steps:
+      - id: checkout
+        name: checkout
+        uses: actions/checkout@v4
+
+      - id: tf-create-workspace-dev
+        name: "[DEV] Create Workspace"
+        uses: cailleach-devops/tfc-shared-actions/.github/actions/tfc/tfc-create-workspace@main
+        with:
+          tfc-workspace: "${{github.event.repository.name}}-dev"
+          tfc-organization: ${{ vars.TFC_ORGANIZATION }}
+          tfc-token: ${{ secrets.TFC_TOKEN}}
+          tfc-project-id: ${{ vars.DEV_SPACE_PRJ }}
+      - id: tf-create-workspace-hml
+        name: "[HML] Create Workspace"
+        uses: cailleach-devops/tfc-shared-actions/.github/actions/tfc/tfc-create-workspace@main
+        with:
+          tfc-workspace: "${{github.event.repository.name}}-hml"
+          tfc-organization: ${{ vars.TFC_ORGANIZATION }}
+          tfc-token: ${{ secrets.TFC_TOKEN}}
+          tfc-project-id: ${{ vars.HML_SPACE_PRJ }}
+      - id: tf-create-workspace-prd
+        name: "[PRD] Create Workspace"
+        uses: cailleach-devops/tfc-shared-actions/.github/actions/tfc/tfc-create-workspace@main
+        with:
+          tfc-workspace: "${{github.event.repository.name}}-prd"
+          tfc-organization: ${{ vars.TFC_ORGANIZATION }}
+          tfc-token: ${{ secrets.TFC_TOKEN}}
+          tfc-project-id: ${{ vars.PRD_SPACE_PRJ }}
