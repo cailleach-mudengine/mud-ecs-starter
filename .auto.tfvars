@@ -1,7 +1,7 @@
 # Enable the flag below if you want to create a EC2 capacity provider
 # for your ECS cluster.  If the flag is disabled a Fargate capacity provider
 # will be used.
-ec2Enable = true
+ec2Enable = false
 
 # Enable the flag below to create a database instance.
 # The instance will be created with no schemas besides the master
